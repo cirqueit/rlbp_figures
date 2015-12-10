@@ -1,0 +1,34 @@
+[
+    {
+        "title": "diff r",
+        "text": "```diff\n40,41c40,41\n<             for( int w = 1; w <= winSize.width / 3; w++ )\n<                 for( int h = 1; h <= winSize.height / 3; h++ )\n---\n>             for( int w = 1; w <= winSize.width / 3; w=w*2)\n>                 for( int h = 1; h <= winSize.height / 3; h=h*2 )\n```"
+    },
+    {
+        "title": "diff r2",
+        "text": "```diff\n40,41c40,42\n<             for( int w = 1; w <= winSize.width / 3; w++ )\n<                 for( int h = 1; h <= winSize.height / 3; h++ )\n---\n>             for( int w = 1; w <= winSize.width / 3; w=w*2 ){\n>                 int h = w;\n>                 if (h <= winSize.height / 3)\n43a45\n>             }\n```"
+    },
+    {
+        "title": "diff -u r1",
+        "text": "```diff\n@@ -37,8 +37,8 @@\n     int offset = winSize.width + 1;\n     for( int x = 0; x < winSize.width; x++ )\n         for( int y = 0; y < winSize.height; y++ )\n-            for( int w = 1; w <= winSize.width / 3; w++ )\n-                for( int h = 1; h <= winSize.height / 3; h++ )\n+            for( int w = 1; w <= winSize.width / 3; w=w*2)\n+                for( int h = 1; h <= winSize.height / 3; h=h*2 )\n                     if ( (x+3*w <= winSize.width) && (y+3*h <= winSize.height) )\n                         features.push_back( Feature(offset, x, y, w, h ) );\n     numFeatures = (int)features.size();\n```"
+    },
+    {
+        "title": "diff -u r2",
+        "text": "```diff\n@@ -37,10 +37,13 @@\n     int offset = winSize.width + 1;\n     for( int x = 0; x < winSize.width; x++ )\n         for( int y = 0; y < winSize.height; y++ )\n-            for( int w = 1; w <= winSize.width / 3; w++ )\n-                for( int h = 1; h <= winSize.height / 3; h++ )\n+            for( int w = 1; w <= winSize.width / 3; w=w*2 ){\n+                int h = w;\n+                if (h <= winSize.height / 3)\n                     if ( (x+3*w <= winSize.width) && (y+3*h <= winSize.height) )\n                         features.push_back( Feature(offset, x, y, w, h ) );\n+            }\n     numFeatures = (int)features.size();\n```"
+    },
+    {
+        "title": "pseudo code",
+        "text": "```python\nfor all scales:\n  for all positions:\n    for all stages:\n      for all features:\n        compute LBP pattern\n        check pattern in feature LUT\n        add pass/fail to stage total\n    if stage total < stage threshold\n      break\n```"
+    },
+    {
+        "title": "pseudo code, with precomputation",
+        "text": "```python\nfor all scales:\n  for all positions:\n    compute LBP pattern\n  for all positions:\n    for all stages:\n      for all features:\n        check pattern in feature LUT\n        add pass/fail to stage total\n    if stage total < stage threshold\n      break\n```"
+    },
+    {
+        "title": "LBP Feature Calculation",
+        "text": "1. calculate sum of center and 8 neighbor cells\n1. set bit n of LBP pattern if neighbor n > center\n1. use LBP pattern as index into feature's LUT\n1. use result to select feature's pass or fail value"
+    },
+    {
+        "title": "Haar Feature Calculation",
+        "text": "1. compute sum of each rectangular region\n1. multiply sum by region's weight\n1. add weighted sums\n1. divide by search window's variance\n1. compare total to feature's threshold\n1. use result to return feature's pass or fail value"
+    }
+]

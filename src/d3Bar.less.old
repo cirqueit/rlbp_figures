@@ -1,0 +1,19 @@
+.bar {
+    rect {
+        fill: steelblue;
+    }
+    &:hover rect {
+        fill: orange;
+    }
+
+    text {
+        visibility: hidden;
+    }
+
+    &:hover text {
+        visibility: visible;
+        fill: white;
+        font: 10px sans-serif !important;
+        text-anchor: middle;
+    }
+}
